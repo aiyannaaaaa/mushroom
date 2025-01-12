@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>In a Mushroom</title>
+  <link rel="stylesheet" href="styles.css">
+  <link href="https://fonts.googleapis.com/css2?family=DM+Serif+Text&display=swap" rel="stylesheet">
+</head>
+<body>
+    <audio autoplay loop>
+        <source src="beat-frequency-82833.mp3" type="audio/mp3">
+        Your browser does not support the audio element.
+      </audio>
+  <div class="container">
+    <h1>in a mushroom.</h1>
+    <div class="shapes">
+      <a href="circle.html" class="shape circle" data-message="on this page, click and drag your mouse to draw."></a>
+      <a href="triangle.html" class="shape triangle"  data-message="on this page, just watch."></a>
+      <a href="square.html" class="shape square"  data-message="on this page: scroll up + down to zoom in + out, move mouse to navigate. "></a>
+    </div>
+    <div class="message-container">
+      <span id="shape-message"> </span>
+    </div>
+  </div>
+
+  <div class="footer-message">
+    JavaScript adapted from p5.js library.
+  </div>
+
+  <script>
+    // Get all shape elements and the message container
+    const shapes = document.querySelectorAll('.shape');
+    const messageContainer = document.getElementById('shape-message');
+
+    // Add hover event listeners to each shape
+    shapes.forEach(shape => {
+      shape.addEventListener('mouseover', function() {
+        const message = shape.getAttribute('data-message');
+        messageContainer.textContent = message;
+      });
+      shape.addEventListener('mouseout', function() {
+        messageContainer.textContent = ' ';
+      });
+    });
+  </script>
+</body>
+</html>

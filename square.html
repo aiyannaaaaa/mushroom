@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Symmetry Drawing</title>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/1.11.1/p5.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/1.11.1/addons/p5.sound.min.js"></script>
+  <style>
+    body {
+      margin: 0;
+      height: 100vh;
+      background-color: rgb(140, 95, 69); /* Background color */
+      color: rgb(92, 54, 43); /* Text color */
+      font-family: 'DM Serif Text', serif;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      position: relative;
+    }
+
+    .back-button {
+      position: absolute;
+      top: 20px;
+      left: 20px;
+      font-size: 1.5rem;
+      color: rgb(255, 255, 255);
+      padding: 10px 15px;
+      text-decoration: none;
+      border-radius: 5px;
+    }
+
+  </style>
+</head>
+<body>
+
+  <a href="index.html" class="back-button">&#8592;</a>
+
+  <audio autoplay loop>
+    <source src="beat-frequency-82833.mp3" type="audio/mp3">
+    Your browser does not support the audio element.
+  </audio>
+
+  <script>
+ let xScale = 0.015;
+let yScale = 0.02;
+
+let gap = 40; 
+let offsetX = 0; 
+let offsetY = 0;
+
+function setup() {
+  createCanvas(windowWidth, windowHeight);
+  noCursor(); 
+  dotGrid();
+}
+
+function draw() {
+  
+  dotGrid();
+}
+
+function mouseMoved() {
+  
+  offsetX += (mouseX - pmouseX) * 0.1; 
+  offsetY += (mouseY - pmouseY) * 0.1;
+}
+
+function mouseDragged() {
+  // Allow dragging to pan the view
+  offsetX += (mouseX - pmouseX) * 0.1;
+  offsetY += (mouseY - pmouseY) * 0.1;
+}
+
+function mouseWheel(event) {
+  
+  gap += event.delta * -0.01; 
+  gap = constrain(gap, 5, width / 5); 
+}
+
+function dotGrid() {
+  background(140, 95, 69);
+  noStroke();
+  fill(92, 54, 43);
+
+  for (let x = gap / 2; x < width; x += gap) {
+    for (let y = gap / 2; y < height; y += gap) {
+     
+      let noiseValue = noise((x + offsetX) * xScale, (y + offsetY) * yScale);
+
+      
+      let diameter = noiseValue * gap;
+      circle(x, y, diameter);
+    }
+  }
+}
+
+  </script>
+</body>
+</html>

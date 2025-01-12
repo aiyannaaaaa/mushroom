@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Symmetry Drawing</title>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/1.11.1/p5.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/1.11.1/addons/p5.sound.min.js"></script>
+  <style>
+    body {
+      margin: 0;
+      height: 100vh;
+      background-color: rgb(92, 54, 43); /* Background color */
+      color: rgb(92, 54, 43); /* Text color */
+      font-family: 'DM Serif Text', serif;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      position: relative;
+    }
+
+    .back-button {
+      position: absolute;
+      top: 20px;
+      left: 20px;
+      font-size: 1.5rem;
+      color: rgb(255, 255, 255);
+      padding: 10px 15px;
+      text-decoration: none;
+      border-radius: 5px;
+    }
+  </style>
+</head>
+<body>
+
+  <a href="index.html" class="back-button">&#8592;</a>
+
+  <audio autoplay loop>
+    <source src="beat-frequency-82833.mp3" type="audio/mp3">
+    Your browser does not support the audio element.
+  </audio>
+
+  <script>
+    let neuron = [],
+    dots = [];
+function setup() {
+  createCanvas(windowWidth, windowHeight); 
+  for(let i=0;i<240;i++){
+    let x = random(width);
+    let y = random(height);
+    dots.push(createVector(x,y));
+  }
+  for(let i=0;i<dots.length;i++){ 
+    for(let j=0;j<dots.length;j++){
+      if(dist(dots[i].x,dots[i].y,dots[j].x,dots[j].y)<130){
+        line(dots[i].x,dots[i].y,dots[j].x,dots[j].y);
+        neuron.push(new fireNeuron(dots[i].x,dots[i].y,dots[j].x,dots[j].y));
+      }
+    }
+  }
+}
+
+function draw() {
+  background(92, 54, 43); 
+  noStroke();
+  for(let i=0;i<dots.length;i++){
+    ellipse(dots[i].x,dots[i].y,2,2); 
+  }
+  
+  for(let i=0;i<neuron.length;i++){
+    neuron[i].show();
+    neuron[i].update();
+  }
+}
+
+function fireNeuron(x1,y1,x2,y2){
+  this.x = 0;
+  this.y =0;
+  this.r = 120;
+  this.x1 = x1;
+  this.x2 = x2;
+  this.y1 = y1;
+  this.y2 = y2;
+  k = 90; 
+  
+  this.update = function(){
+     this.x = lerp(x2,x1,sin(radians(k)));
+     this.y = lerp(y2,y1,sin(radians(k)));
+     if(k<180)k+=1/2000;
+     else k=120;
+     this.r = 3*sin(radians(k*2));
+  }
+            
+  this.show = function(){
+    noStroke();
+    fill(140, 95, 69);
+    ellipse(this.x,this.y,2*this.r,2*this.r);
+    stroke(145, 76, 52);
+    line(x2,y2,x1,y1);
+  }
+}
+  </script>
+</body>
+</html>

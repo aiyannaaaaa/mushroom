@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Symmetry Drawing</title>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/1.11.1/p5.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/1.11.1/addons/p5.sound.min.js"></script>
+  <style>
+    body {
+      margin: 0;
+      height: 100vh;
+      background-color: rgb(140, 95, 69); /* Background color */
+      color: rgb(92, 54, 43); /* Text color */
+      font-family: 'DM Serif Text', serif;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      position: relative;
+    }
+
+    .back-button {
+      position: absolute;
+      top: 20px;
+      left: 20px;
+      font-size: 1.5rem;
+      color: rgb(255, 255, 255);
+      padding: 10px 15px;
+      text-decoration: none;
+      border-radius: 5px;
+    }
+  </style>
+</head>
+<body>
+
+  <a href="index.html" class="back-button">&#8592;</a>
+
+  <audio autoplay loop>
+    <source src="beat-frequency-82833.mp3" type="audio/mp3">
+    Your browser does not support the audio element.
+  </audio>
+
+  <script>
+    let symmetry = 8;
+    let angle = 360 / symmetry;
+
+    function setup() {
+      createCanvas(windowWidth, windowHeight);
+      angleMode(DEGREES);
+      background(92, 54, 43); /* Dark grey background */
+    }
+
+    function draw() {
+      translate(width / 2, height / 2);
+
+      if (mouseX > 0 && mouseX < width && mouseY > 0 && mouseY < height) {
+
+        let lineStartX = mouseX - width / 2;
+        let lineStartY = mouseY - height / 2;
+        let lineEndX = pmouseX - width / 2;
+        let lineEndY = pmouseY - height / 2;
+
+        if (mouseIsPressed === true) {
+          for (let i = 0; i < symmetry; i++) {
+            rotate(angle);
+            stroke(140, 95, 69); /* Line color */
+            strokeWeight(1);
+            line(lineStartX, lineStartY, lineEndX, lineEndY);
+
+            push();
+            scale(1, -1); /* Flip the lines */
+            line(lineStartX, lineStartY, lineEndX, lineEndY);
+            pop();
+          }
+        }
+      }
+    }
+  </script>
+</body>
+</html>
